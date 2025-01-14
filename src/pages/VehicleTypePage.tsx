@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { QRCodeSVG } from "qrcode.react";
+import { QRCodeCanvas, QRCodeSVG } from "qrcode.react";
 
 interface QRData {
   qrString: string;
@@ -26,8 +26,7 @@ const VehicleTypePage = () => {
       hour12: false,
     });
 
-    // Generate a unique ID
-    const uniqueId = Math.random().toString(36).substring(2, 8).toUpperCase();
+
 
     // Format the date string
     const formattedDate = sriLankaTime
@@ -35,7 +34,7 @@ const VehicleTypePage = () => {
       .replace(",", "")
       .replace(/\s+/g, "T");
 
-    const qrString = `${type}_${formattedDate}_${uniqueId}`;
+    const qrString = `${type}_${formattedDate}`;
 
     setQRData({
       qrString,
@@ -43,11 +42,86 @@ const VehicleTypePage = () => {
       timestamp: formattedDate,
     });
 
-    // Delay printing slightly to ensure QR code is rendered
+
     setTimeout(() => {
-      window.print();
+      handlePrintQR(type);
     }, 100);
+
+
   };
+
+  const qrCanvasRef = useRef<HTMLCanvasElement>(null);
+  // Generate Base64 QR Code
+  const generateBase64QR = () => {
+    const canvas = qrCanvasRef.current;
+    if (canvas) {
+      return canvas.toDataURL("image/png").replace(/^data:image\/png;base64,/, "");
+    }
+    return null;
+  };
+
+  const generateCombinedImage = (type: string) => {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+  
+    const heading = "Economic Center Keppetipola";
+    const vehicleType = type.charAt(0).toUpperCase() + type.slice(1).toLowerCase() + " Vehicle";
+    const now = new Date();
+    const time = now.toLocaleString("en-US", {
+      timeZone: "Asia/Colombo",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
+    const qrCanvas = qrCanvasRef.current;
+  
+    if (context && qrCanvas &&time) {
+      const qrWidth = qrCanvas.width;
+      const qrHeight = qrCanvas.height;
+  
+      canvas.width = 2 * qrWidth; 
+      canvas.height = qrHeight + 130; 
+  
+      context.fillStyle = "white"; 
+      context.fillRect(0, 0, canvas.width, canvas.height); 
+
+      context.fillStyle = "black";
+      context.font = "25px Arial";
+      context.textAlign = "center";
+
+      context.fillText(heading, canvas.width / 2, 30); 
+  
+      context.font = "20px Arial";
+      context.fillText(vehicleType, canvas.width / 2, 60);
+
+      context.fillText(time, canvas.width / 2, 90); 
+
+      const qrYPosition = 110;
+      context.drawImage(qrCanvas, (canvas.width - qrWidth) / 2, qrYPosition);
+
+      context.fillStyle = "white"; 
+      context.fillRect(0, canvas.height - 40, canvas.width, 40); 
+  
+      return canvas.toDataURL("image/png").replace(/^data:image\/png;base64,/, "");
+    }
+    return null;
+  };
+  
+  
+  const handlePrintQR = (type: string) => {
+    const base64QR = generateCombinedImage(type); 
+    if (base64QR) {
+      const rawbtUrl = `intent:data:image/png;base64,${base64QR}#Intent;scheme=rawbt;package=ru.a402d.rawbtprinter;end;`;
+      window.location.href = rawbtUrl;
+    } else {
+      alert("Failed to generate QR code for printing.");
+    }
+  };
+  
 
   return (
     <>
@@ -164,11 +238,12 @@ const VehicleTypePage = () => {
       `}
           </style>
           <div className="flex flex-col items-center">
-            <QRCodeSVG
+            <QRCodeCanvas
               value={qrData.qrString}
-              size={160}
+              size={150}
               level="H"
-              includeMargin={false}
+              includeMargin={true}
+              ref={qrCanvasRef}
             />
             <p className="text-center mt-2 text-sm font-semibold">
               {qrData.vehicleType === "HEAVY"
