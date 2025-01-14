@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { QRCodeCanvas, QRCodeSVG } from "qrcode.react";
+import { QRCodeCanvas } from "qrcode.react";
+import LogEntry from "../services/LogsService";
 
 interface QRData {
   qrString: string;
@@ -42,12 +43,8 @@ const VehicleTypePage = () => {
       timestamp: formattedDate,
     });
 
-
-    setTimeout(() => {
-      handlePrintQR(type);
-    }, 100);
-
-
+    handlePrintQR(type);
+    LogEntry(qrData?.qrString);
   };
 
   const qrCanvasRef = useRef<HTMLCanvasElement>(null);

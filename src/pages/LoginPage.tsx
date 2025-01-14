@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { SignIn } from "../services/AuthService";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
   const [error, setError] = useState("");
@@ -14,24 +15,21 @@ const LoginPage = () => {
     });
   };
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
 
-    // Temporary login check
-    if (formData.username === "admin" && formData.password === "admin123") {
-      const tempUser = {
-        id: "1",
-        username: "admin",
-        role: "admin",
-      };
-      localStorage.setItem("token", "temp-token-123");
-      localStorage.setItem("user", JSON.stringify(tempUser));
-      window.location.href = "/dashboard";
-      return;
+    try {
+        const result = await SignIn({
+            email: formData.email,
+            password: formData.password,
+        });
+        console.log('Sign-in successful:', result);
+        window.location.href = "/dashboard"; 
+    } catch (error) {
+        setError("Invalid credentials");
+        console.error('Sign-in error:', error);
     }
-
-    setError("Invalid credentials");
-  };
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -53,8 +51,8 @@ const LoginPage = () => {
             </label>
             <input
               type="text"
-              name="username"
-              value={formData.username}
+              name="email"
+              value={formData.email}
               onChange={handleChange}
               className="w-full p-2 border rounded focus:outline-none focus:border-blue-500"
               required
