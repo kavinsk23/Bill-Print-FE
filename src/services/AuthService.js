@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = `http://localhost:8080/api/v1/auth`;
+const API_URL = `http://92.242.187.125:8085/api/v1/auth`;
 
 const SignUp = async (userData) => {
     try {

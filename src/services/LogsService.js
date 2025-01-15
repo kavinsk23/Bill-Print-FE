@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = `http://localhost:8080/api/v1/logs/entry`;
+const API_URL = `http://92.242.187.125:8085/api/v1/logs/entry`;
 
 const LogEntry = async (qrCode) => {
   try {
