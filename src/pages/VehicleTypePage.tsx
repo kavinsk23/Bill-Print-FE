@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { QRCodeCanvas } from "qrcode.react";
-import LogEntry from "../services/LogsService";
+import { LogEntry } from "../services/LogsService";
 
 interface QRData {
   qrString: string;

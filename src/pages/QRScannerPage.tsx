@@ -1,26 +1,65 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Html5Qrcode } from "html5-qrcode";
 import { useNavigate } from "react-router-dom";
+import {ExitEntry} from "../services/LogsService";
+
 
 const QRScannerPage = () => {
   const navigate = useNavigate();
   const scannerRef = useRef<Html5Qrcode | null>(null);
-
+  const [qrData, setQrData] = useState<QRData | null>(null);
   const handleClose = () => {
     navigate(-1);
   };
 
+  interface QRData {
+    vehicleType: string;
+    totalHours: number;
+    additionalHours: number;
+    fixedCost: number;
+    additionalCost: number;
+    totalCost: number;
+  }
+
+  function BtPrint(prn:any) {
+    var S = "#Intent;scheme=rawbt;";
+    var P = "package=ru.a402d.rawbtprinter;end;";
+    var textEncoded = encodeURI(prn);
+    window.location.href = "intent:" + textEncoded + S + P;
+  }
+
   const handleScan = (data: string) => {
     console.log("Scanned QR:", data);
     try {
-      const [type, timestamp, id] = data.split("_");
-      // Add your processing logic here
-      alert(`Scanned QR Code: ${data}`);
+      ExitEntry(data).then((result: QRData) => {
+        setQrData(result);
+        const prePrintElement = document.getElementById('pre_print');
+        if (prePrintElement) {
+          BtPrint(prePrintElement.innerText);
+        }
+        alert(`Scanned QR Code: ${JSON.stringify(result)}`);
+      }).catch((error) => {
+        alert("Invalid QR Code");
+      });
     } catch (error) {
       alert("Invalid QR Code");
     }
     navigate(-1);
   };
+
+  const generateReceiptContent = () => `
+    Keppetipola Economic Centre
+    --------------------------------------
+    Vehicle Type:               ${qrData?.vehicleType}
+    Total Hours:                ${qrData?.totalHours}
+    Additional Hours:           ${qrData?.additionalHours}
+    Fixed Cost:                 ${qrData?.fixedCost.toFixed(2)}
+    Additional Cost:            ${qrData?.additionalCost.toFixed(2)}
+    **************************************
+    TOTAL COST:                 ${qrData?.totalCost.toFixed(2)}
+    **************************************
+                  Thank you!
+      `;
 
   useEffect(() => {
     // Initialize scanner only once
@@ -38,7 +77,7 @@ const QRScannerPage = () => {
           (decodedText) => {
             if (scannerRef.current) {
               scannerRef.current.stop().then(() => {
-                handleScan(decodedText);
+              handleScan(decodedText);
               });
             }
           },
@@ -57,8 +96,9 @@ const QRScannerPage = () => {
     };
   }, [navigate]);
 
+
   return (
-    <div className="min-h-screen bg-gray-100 py-4 sm:py-8 px-2 sm:px-4">
+    <><div className="min-h-screen bg-gray-100 py-4 sm:py-8 px-2 sm:px-4">
       <div className="w-full max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-4 sm:mb-8">
@@ -84,7 +124,10 @@ const QRScannerPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div><div>
+    <pre id="pre_print" style={{ fontFamily: "monospace", whiteSpace: "pre-wrap", paddingLeft: "20px" }}>
+        {generateReceiptContent()}
+      </pre></div></>
   );
 };
 
