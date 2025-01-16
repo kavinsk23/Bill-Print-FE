@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 const AuthGuard = ({ children }) => {
   const isAuthenticated = localStorage.getItem('accessToken') !== null;
 
-  if (isAuthenticated) {
+  if (!isAuthenticated) {
     return <Navigate to="/" />;
   }
 

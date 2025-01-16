@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = `https://happysales.lk/api/v1/logs`;
+ const API_URL = `https://happysales.lk/api/v1/logs`;
 
 const LogEntry = async (qrCode) => {
   try {

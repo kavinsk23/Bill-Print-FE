@@ -29,7 +29,6 @@ const ReportsPage: React.FC = () => {
     window.location.href = "intent:" + textEncoded + S + P;
   }
 
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -80,20 +79,22 @@ const ReportsPage: React.FC = () => {
   };
 
   const generateReceiptContent = () =>
-    `Keppetipola Economic Centre
-       Vehicle Parking Report
---------------------------------------
-Excited Light Vehicles    : ${vehicleData?.exitedLightVehicles}
-Excited Heavy Vehicles    : ${vehicleData?.exitedHeavyVehicles}
-Total Vehicles Entered    : ${vehicleData?.totalEntered}
-Total Vehicles Exited     : ${vehicleData?.totalExited}
-Remaining Vehicles Inside : ${vehicleData?.vehiclesInside}
-**************************************
-Total Fixed Earning       :  ${earningsData?.totalFixedCost.toFixed(2)}
-Total Additional Earning  :  ${earningsData?.totalAdditionalCost.toFixed(2)}
-TOTAL EARNING             :  ${earningsData?.totalEarning.toFixed(2)}
-**************************************
-            Thank you!`;
+    `          Keppetipola Economic Centre
+            Vehicle Parking Report
+    --------------------------------------
+        Exited Light Vehicles     : ${vehicleData?.exitedLightVehicles}
+        Exited Heavy Vehicles     : ${vehicleData?.exitedHeavyVehicles}
+        Total Vehicles Entered    : ${vehicleData?.totalEntered}
+        Total Vehicles Exited     : ${vehicleData?.totalExited}
+        Remaining Vehicles Inside : ${vehicleData?.vehiclesInside}
+    **************************************
+      Total Fixed Earning       :  ${earningsData?.totalFixedCost.toFixed(2)}
+      Total Additional Earning  :  ${earningsData?.totalAdditionalCost.toFixed(
+        2
+      )}
+      TOTAL EARNING             :  ${earningsData?.totalEarning.toFixed(2)}
+    **************************************
+                  Thank you!`;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-2">
@@ -120,7 +121,9 @@ TOTAL EARNING             :  ${earningsData?.totalEarning.toFixed(2)}
             <div id="reportContent">
               {/* Vehicle Count */}
               <div className="bg-blue-50 rounded-lg p-4 mb-4">
-                <h2 className="text-sm font-bold text-blue-800 mb-2">Daily Vehicle Count</h2>
+                <h2 className="text-sm font-bold text-blue-800 mb-2">
+                  Daily Vehicle Count
+                </h2>
                 <table className="w-full text-xs">
                   <thead className="border-b border-blue-200">
                     <tr>
@@ -130,24 +133,38 @@ TOTAL EARNING             :  ${earningsData?.totalEarning.toFixed(2)}
                   </thead>
                   <tbody>
                     <tr className="border-b border-blue-100">
-                      <td className="py-1 text-blue-900">Exited Light Vehicles</td>
-                      <td className="text-right text-blue-900">{vehicleData.exitedLightVehicles}</td>
+                      <td className="py-1 text-blue-900">
+                        Exited Light Vehicles
+                      </td>
+                      <td className="text-right text-blue-900">
+                        {vehicleData.exitedLightVehicles}
+                      </td>
                     </tr>
                     <tr className="border-b border-blue-100">
-                      <td className="py-1 text-blue-900">Exited Heavy Vehicles</td>
-                      <td className="text-right text-blue-900">{vehicleData.exitedHeavyVehicles}</td>
+                      <td className="py-1 text-blue-900">
+                        Exited Heavy Vehicles
+                      </td>
+                      <td className="text-right text-blue-900">
+                        {vehicleData.exitedHeavyVehicles}
+                      </td>
                     </tr>
                     <tr className="border-b border-blue-100">
                       <td className="py-1 text-blue-900">Total Entered</td>
-                      <td className="text-right text-blue-900">{vehicleData.totalEntered}</td>
+                      <td className="text-right text-blue-900">
+                        {vehicleData.totalEntered}
+                      </td>
                     </tr>
                     <tr className="border-b border-blue-100">
                       <td className="py-1 text-blue-900">Total Exited</td>
-                      <td className="text-right text-blue-900">{vehicleData.totalExited}</td>
+                      <td className="text-right text-blue-900">
+                        {vehicleData.totalExited}
+                      </td>
                     </tr>
                     <tr className="border-b border-blue-100">
                       <td className="py-1 text-blue-900">Vehicles Inside</td>
-                      <td className="text-right text-blue-900">{vehicleData.vehiclesInside}</td>
+                      <td className="text-right text-blue-900">
+                        {vehicleData.vehiclesInside}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -155,30 +172,59 @@ TOTAL EARNING             :  ${earningsData?.totalEarning.toFixed(2)}
 
               {/* Earnings */}
               <div className="bg-green-50 rounded-lg p-4">
-                <h2 className="text-sm font-bold text-green-800 mb-2">Earnings</h2>
+                <h2 className="text-sm font-bold text-green-800 mb-2">
+                  Earnings
+                </h2>
                 <table className="w-full text-xs">
                   <thead className="border-b border-green-200">
                     <tr>
                       <th className="text-left pb-1 text-green-700">Metric</th>
-                      <th className="text-right pb-1 text-green-700">Earnings (LKR)</th>
+                      <th className="text-right pb-1 text-green-700">
+                        Earnings (LKR)
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr className="border-b border-green-100">
-                      <td className="py-1 text-green-900">Total Fixed Earning</td>
-                      <td className="text-right text-green-900">{earningsData.totalFixedCost}</td>
+                      <td className="py-1 text-green-900">
+                        Total Fixed Earning
+                      </td>
+                      <td className="text-right text-green-900">
+                        {earningsData.totalFixedCost}
+                      </td>
                     </tr>
                     <tr className="border-b border-green-100">
-                      <td className="py-1 text-green-900">Total Additional Earning</td>
-                      <td className="text-right text-green-900">{earningsData.totalAdditionalCost}</td>
+                      <td className="py-1 text-green-900">
+                        Total Additional Earning
+                      </td>
+                      <td className="text-right text-green-900">
+                        {earningsData.totalAdditionalCost}
+                      </td>
                     </tr>
                     <tr>
-                      <td className="py-1 font-semibold text-purple-900">Total Earnings</td>
-                      <td className="text-right font-semibold text-purple-900">{earningsData.totalEarning}</td>
+                      <td className="py-1 font-semibold text-purple-900">
+                        Total Earnings
+                      </td>
+                      <td className="text-right font-semibold text-purple-900">
+                        {earningsData.totalEarning}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
+            </div>
+            <div style={{ display: "none" }}>
+              <pre
+                id="pre_print"
+                style={{
+                  fontFamily: "monospace",
+                  whiteSpace: "pre-wrap",
+                  alignContent: "center",
+                  paddingLeft: "50px",
+                }}
+              >
+                {generateReceiptContent()}
+              </pre>
             </div>
 
             {/* Generate PDF Button */}
@@ -190,15 +236,15 @@ TOTAL EARNING             :  ${earningsData?.totalEarning.toFixed(2)}
                 Generate PDF
               </button>
               <button
-                  onClick={() => {
-                    const prePrintElement = document.getElementById("pre_print");
-                    if (prePrintElement) {
-                      BtPrint(prePrintElement.innerText);
-                    }
-                  }}
+                onClick={() => {
+                  const prePrintElement = document.getElementById("pre_print");
+                  if (prePrintElement) {
+                    BtPrint(prePrintElement.innerText);
+                  }
+                }}
                 className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
               >
-                Generate PDF
+                Print Report
               </button>
             </div>
           </>
