@@ -53,7 +53,7 @@ const QRScannerPage = () => {
   };
 
   const generateReceiptContent = () =>
-    `Keppetipola Economic Centre
+      `Keppetipola Economic Centre
 --------------------------------------
 Vehicle Type:               ${qrData?.vehicleType}
 Total Hours:                ${qrData?.totalHours}
@@ -132,7 +132,7 @@ TOTAL COST:                 ${qrData?.totalCost.toFixed(2)}
             <h2 className="text-xl font-bold mb-4">Generated Bill</h2>
             <pre
               id="pre_print"
-              style={{ fontFamily: "monospace", whiteSpace: "pre-wrap" }}
+              style={{ fontFamily: "monospace", whiteSpace: "pre-wrap" ,alignContent:"center",paddingLeft: "20px"}} 
             >
               {generateReceiptContent()}
             </pre>
@@ -143,6 +143,7 @@ TOTAL COST:                 ${qrData?.totalCost.toFixed(2)}
                   if (prePrintElement) {
                     BtPrint(prePrintElement.innerText);
                   }
+                  setShowPopup(false);
                 }}
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
               >

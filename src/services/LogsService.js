@@ -46,4 +46,21 @@ const ExitEntry = async (qrCode) => {
   }
 };
 
-export { LogEntry, ExitEntry };
+const getParkingStatistics = async () => {
+  try {
+    const accessToken = localStorage.getItem('accessToken'); 
+    const URL = `${API_URL}/status`;
+    const response = await axios.get(URL, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching parking statistics:', error);
+    throw error;
+  }
+};
+
+export { LogEntry, ExitEntry,getParkingStatistics };
